@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="calculator.png" type="image/x-icon">
+</head>
+<body>
+   
+    <div class="calculator">
+        <div class="top-section">
+            <div class="brand-model">
+                <span class="casio">CASIO</span>
+                <span class="model-name">fx-100MS</span>
+            </div>
+            <div class="svpam">S-V.P.A.M.</div>
+        </div>
+
+        <div class="display-area">
+            <div class="status-indicators">
+                <span id="shift-indicator" class="indicator">SHIFT</span>
+                <span id="alpha-indicator" class="indicator">ALPHA</span>
+                <span id="hyp-indicator" class="indicator">HYP</span>
+                <span id="m-indicator" class="indicator">M</span>
+                <span id="angle-indicator" class="indicator">DEG</span>
+                <!-- অন্যান্য ইন্ডিকেটর এখানে যোগ করা যেতে পারে -->
+            </div>
+            <div id="secondary-display" class="secondary-display"></div>
+            <div id="main-display" class="main-display">0</div>
+        </div>
+
+        <div class="keypad-area">
+            <!-- Top Control Row -->
+            <div class="key-row">
+                <button class="key key-control" id="btn-shift">SHIFT</button>
+                <button class="key key-control key-alpha" id="btn-alpha">ALPHA</button>
+                <div class="replay-cluster">
+                    <button class="key key-replay key-replay-up" title="কার্যকর নয়">▲</button>
+                    <div class="replay-middle-row">
+                        <button class="key key-replay key-replay-left" title="কার্যকর নয়">◀</button>
+                        <button class="key key-replay key-replay-copy" id="btn-copy" title="Copy Expression">COPY</button>
+                        <button class="key key-replay key-replay-right" title="কার্যকর নয়">▶</button>
+                    </div>
+                    <button class="key key-replay key-replay-down" title="কার্যকর নয়">▼</button>
+                </div>
+                <button class="key key-control" id="btn-mode">MODE <span class="sub-text">CLR</span></button>
+                <button class="key key-control key-on" id="btn-on">ON</button>
+            </div>
+
+            <!-- Function Row 1 -->
+            <div class="key-row">
+                <button class="key key-func" data-func="calc" data-shift-func="solve" title="CALC (কার্যকর নয়)"><span class="shift-text">SOLVE =</span>CALC <span class="main-text-overlay">∫dx</span></button>
+                <button class="key key-func" data-func="fraction" data-shift-func="improperFraction"><span class="shift-text">d/c</span>a b/c</button>
+                <button class="key key-func" data-func="sqrt" data-shift-func="cbrt"><span class="shift-text">³√</span>√</button>
+                <button class="key key-func" data-func="sqr" data-shift-func="cube"><span class="shift-text">x³</span>x²</button>
+                <button class="key key-func" data-op="^" data-shift-func="nthroot"><span class="shift-text">ˣ√</span>^</button>
+                <button class="key key-func" data-func="log" data-shift-func="tenpow"><span class="shift-text">10ˣ</span>log</button>
+                <button class="key key-func" data-func="ln" data-shift-func="epow"><span class="shift-text">eˣ</span>ln</button>
+            </div>
+
+            <!-- Function Row 2 -->
+            <div class="key-row">
+                <button class="key key-char key-op" data-value="(-)" data-alpha-char="A"><span class="alpha-text">A</span>(-)</button>
+                <button class="key key-func" data-func="dms" data-alpha-char="B" title="Degree-Min-Sec (কার্যকর নয়)"><span class="alpha-text">B</span>° ’ ”</button>
+                <button class="key key-func" id="btn-hyp" data-alpha-char="C"><span class="alpha-text">C</span>hyp</button>
+                <button class="key key-func" data-func="sin" data-shift-func="asin" data-alpha-char="D"><span class="shift-text">sin⁻¹</span><span class="alpha-text">D</span>sin</button>
+                <button class="key key-func" data-func="cos" data-shift-func="acos" data-alpha-char="E"><span class="shift-text">cos⁻¹</span><span class="alpha-text">E</span>cos</button>
+                <button class="key key-func" data-func="tan" data-shift-func="atan" data-alpha-char="F"><span class="shift-text">tan⁻¹</span><span class="alpha-text">F</span>tan</button>
+                <button class="key key-func" data-func="rcl" data-shift-func="sto"><span class="shift-text">STO</span>RCL</button>
+            </div>
+
+            <!-- Function Row 3 -->
+            <div class="key-row">
+                <button class="key key-func" data-func="eng" title="ENG (কার্যকর নয়)">ENG</button>
+                <button class="key key-char" data-value="(" data-alpha-char="X"><span class="alpha-text">X</span>(</button>
+                <button class="key key-char" data-value=")" data-alpha-char="Y"><span class="alpha-text">Y</span>)</button>
+                <button class="key key-char" data-value="," data-shift-char=";" data-alpha-char="M"><span class="shift-text">;</span><span class="alpha-text">M</span>,</button>
+                <button class="key key-mem" data-func="mplus" data-shift-func="mminus"><span class="shift-text">M-</span>M+</button>
+                <button class="key key-func" data-func="npr" data-shift-func="ncr" title="nPr / nCr"><span class="shift-text">nCr</span>nPr</button>
+                <button class="key key-func" data-func="percent" data-shift-text="%">%</button> <!-- fx-100MS এ % আলাদা বাটন নয়, shift এর সাথে থাকে -->
+            </div>
+            
+            <!-- Numeric Pad Area - structured as 5 columns -->
+            <div class="numeric-pad">
+                <button class="key key-num" data-value="7" data-alpha-char="STAT">7</button>
+                <button class="key key-num" data-value="8">8</button>
+                <button class="key key-num" data-value="9">9</button>
+                <button class="key key-op key-del" id="btn-del">DEL</button>
+                <button class="key key-op key-ac" id="btn-ac">AC <span class="shift-text-bottom">OFF</span></button>
+
+                <button class="key key-num" data-value="4">4</button>
+                <button class="key key-num" data-value="5">5</button>
+                <button class="key key-num" data-value="6">6</button>
+                <button class="key key-op" data-value="*">×</button>
+                <button class="key key-op" data-value="/">÷</button>
+
+                <button class="key key-num" data-value="1">1</button>
+                <button class="key key-num" data-value="2">2</button>
+                <button class="key key-num" data-value="3">3</button>
+                <button class="key key-op" data-value="+">+</button>
+                <button class="key key-op" data-value="-">-</button>
+
+                <button class="key key-num" data-value="0">0</button>
+                <button class="key key-num" data-value=".">.</button>
+                <button class="key key-op" data-value="E" data-shift-func="pi"><span class="shift-text">π</span>EXP</button>
+                <button class="key key-ans" id="btn-ans" data-shift-func="rand"><span class="shift-text">Ran#</span>Ans</button>
+                <button class="key key-equals" id="btn-equals">=</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+:root {
+    --calc-bg: #1e1e1e; /* গাঢ় ধূসর, প্রায় কালো */
+    --calc-face-bg: #2f2f2f; /* ক্যালকুলেটরের ফেস প্লেট */
+    --display-bg: #aecfb0; /* ডিসপ্লের সবুজ আভা */
+    --display-text: #1a2b1a; /* ডিসপ্লের গাঢ় অক্ষর */
+    --key-grey-bg: #4a4a4a;
+    --key-grey-text: #e0e0e0;
+    --key-dark-grey-bg: #383838;
+    --key-blue-grey-bg: #3b4a51; /* ফাংশন কী */
+    --key-shift-bg: #75632A; /* সোনালী/বাদামী শিফট */
+    --key-shift-text: #f0e0c0;
+    --key-alpha-bg: #6A287E; /* বেগুনী আলফা */
+    --key-alpha-text: #f0d0ff;
+    --key-on-bg: #c0392b; /* লালচে ON বাটন */
+    --key-on-text: #fff;
+    --key-equals-bg: #2c3e50; /* গাঢ় নীল Equals */
+    --key-border: #111;
+    --shift-label-color: #FFB74D; /* কমলা-সোনালী */
+    --alpha-label-color: #BA68C8; /* হালকা বেগুনী */
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #555;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+.calculator {
+    background-color: var(--calc-bg);
+    border-radius: 10px; /* সামান্য কম রাউন্ডেড */
+    padding: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5), 
+                inset 0 0 15px rgba(0,0,0,0.3),
+                0px 2px 2px rgba(255,255,255,0.1) inset, /* top highlight */
+                0px -2px 2px rgba(0,0,0,0.5) inset; /* bottom shadow */
+    width: 100%;
+    max-width: 360px; /* fx-100MS এর কাছাকাছি */
+    border: 1px solid #000;
+}
+
+.top-section {
+    background-color: var(--calc-face-bg);
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: 6px 6px 0 0;
+}
+.brand-model {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ccc;
+    font-size: 0.6em;
+    padding-bottom: 2px;
+}
+.casio { font-weight: bold; letter-spacing: 1px; }
+.model-name { font-family: 'Arial Narrow', Arial, sans-serif; }
+.svpam {
+    color: #aaa;
+    font-size: 0.55em;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.display-area {
+    background-color: var(--display-bg);
+    border-radius: 4px;
+    padding: 5px 8px;
+    margin-bottom: 10px;
+    border: 1px solid #888;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+.status-indicators {
+    font-size: 0.55em;
+    color: var(--display-text);
+    opacity: 0.7;
+    min-height: 0.8em;
+    text-align: left;
+    padding-bottom: 2px;
+    display: flex;
+    gap: 5px;
+}
+.indicator { display: none; } /* ডিফল্টভাবে লুকানো */
+.indicator.active { display: inline; }
+
+.secondary-display, .main-display {
+    font-family: 'Lucida Console', 'Courier New', monospace; /* ডট-ম্যাট্রিক্সের কাছাকাছি ফন্ট */
+    color: var(--display-text);
+    text-align: right;
+    overflow-x: auto;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+.secondary-display {
+    font-size: 0.9em;
+    min-height: 1.1em;
+    opacity: 0.7;
+}
+.main-display {
+    font-size: 1.9em;
+    min-height: 1.4em;
+    font-weight: bold;
+}
+
+.keypad-area {
+    background-color: var(--calc-face-bg);
+    padding: 10px;
+    border-radius: 0 0 6px 6px;
+}
+.key-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* উপরের ফাংশন সারি ৭ কলাম */
+    gap: 5px;
+    margin-bottom: 5px;
+}
+.numeric-pad {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* নম্বর প্যাড ৫ কলাম */
+    gap: 5px;
+}
+
+.key {
+    background-color: var(--key-grey-bg);
+    color: var(--key-grey-text);
+    border: 1px solid var(--key-border);
+    border-radius: 3px;
+    font-size: 0.85em;
+    padding: 8px 4px;
+    cursor: pointer;
+    transition: background-color 0.1s, transform 0.05s;
+    position: relative; /* শিফট/আলফা টেক্সটের জন্য */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px; /* বাটনের উচ্চতা */
+    box-shadow: 0 2px 1px rgba(0,0,0,0.4), 
+                inset 0 1px 0px rgba(255,255,255,0.1);
+    text-align: center;
+    font-weight: 500;
+}
+.key:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 1px 0px rgba(0,0,0,0.4), inset 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.key .shift-text, .key .alpha-text, .key .main-text-overlay, .key .sub-text, .key .shift-text-bottom {
+    position: absolute;
+    font-size: 0.6em;
+    pointer-events: none;
+    line-height: 1;
+}
+.key .shift-text { top: 2px; left: 3px; color: var(--shift-label-color); }
+.key .alpha-text { top: 2px; right: 3px; color: var(--alpha-label-color); } /* কিছু ক্যালকুলেটরে ডানদিকে থাকে */
+.key .main-text-overlay { bottom: 2px; right: 3px; color: #ccc; font-size: 0.7em; } /* ∫dx এর মতো */
+.key .sub-text { bottom: 2px; color: #aaa; } /* CLR এর মতো */
+.key .shift-text-bottom { bottom: 2px; left: 3px; color: var(--shift-label-color); font-size: 0.55em; } /* OFF */
+
+/* Replay Cluster */
+.replay-cluster {
+    grid-column: span 3; /* তিনটি সাধারণ বাটনের জায়গা নেবে */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr auto 1fr; /* ভেতরের কলাম */
+    gap: 1px;
+    padding: 1px;
+    background-color: var(--key-dark-grey-bg);
+    border-radius: 3px;
+    border: 1px solid var(--key-border);
+}
+.key-replay { font-size: 0.6em !important; min-height: 15px !important; padding: 1px !important; background-color: var(--key-grey-bg); }
+.key-replay-up { grid-row: 1; grid-column: 2; }
+.replay-middle-row { grid-row: 2; grid-column: 1 / 4; display: flex; }
+.key-replay-left { margin-right: auto; }
+.key-replay-copy { flex-grow: 1; margin: 0 1px; } /* মাঝখানের বাটন */
+.key-replay-right { margin-left: auto; }
+.key-replay-down { grid-row: 3; grid-column: 2; }
+
+
+/* Specific Key Styles */
+.key-control { background-color: var(--key-dark-grey-bg); font-size: 0.7em; }
+.key-on { background-color: var(--key-on-bg); color: var(--key-on-text); font-weight: bold; }
+.key-shift.active, .key-control#btn-shift.active { background-color: var(--key-shift-bg); color: var(--key-shift-text); box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
+.key-alpha.active, .key-control#btn-alpha.active { background-color: var(--key-alpha-bg); color: var(--key-alpha-text); box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
+#btn-hyp.active { background-color: #54988c; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
+
+
+.key-func { background-color: var(--key-blue-grey-bg); }
+.key-num { background-color: var(--key-grey-bg); font-weight: bold; font-size: 1em; }
+.key-op { background-color: var(--key-dark-grey-bg); }
+.key-del, .key-ac { background-color: #7f2a2a; color: #f0c0c0; } /* ডিলিট/এসি */
+.key-equals { background-color: var(--key-equals-bg); color: #fff; font-weight: bold; }
+.key-ans { background-color: var(--key-dark-grey-bg); }
+.key-mem { background-color: #6a3c3c; } /* M+ এর জন্য */
+
+/* Mobile Responsiveness */
+@media (max-width: 380px) {
+    .calculator { max-width: 96%; padding: 6px; }
+    .key { font-size: 0.75em; padding: 6px 2px; min-height: 28px; }
+    .key .shift-text, .key .alpha-text, .key .main-text-overlay, .key .sub-text { font-size: 0.5em; }
+    .main-display { font-size: 1.7em; }
+    .secondary-display { font-size: 0.8em; }
+    .key-row, .numeric-pad { gap: 3px; margin-bottom: 3px; }
+    .replay-cluster { grid-column: span 3; } /* নিশ্চিত করা */
+}
